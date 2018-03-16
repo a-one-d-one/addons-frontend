@@ -7,6 +7,7 @@ import type { AddonType } from 'core/types/addons';
 import MetadataCard from 'ui/components/MetadataCard';
 import Rating from 'ui/components/Rating';
 import type { I18nType } from 'core/types/i18n';
+import Link from 'amo/components/Link';
 
 import './styles.scss';
 
@@ -59,7 +60,14 @@ export class AddonMetaBase extends React.Component<Props> {
             },
             {
               content: reviewCount,
-              title: reviewTitle,
+              title: (
+                <Link
+                  className="Addon-all-reviews-link"
+                  to={`/addon/${addon.slug}/reviews/`}
+                >
+                  {reviewTitle}
+                </Link>
+              ),
             },
             {
               content: (
