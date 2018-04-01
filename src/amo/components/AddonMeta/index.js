@@ -48,6 +48,7 @@ export class AddonMetaBase extends React.Component<Props> {
     } else {
       reviewTitle = i18n.gettext('No Ratings');
     }
+    let overallRating = i18n.gettext('Overall Rating');
 
     return (
       <div className="AddonMeta">
@@ -59,7 +60,14 @@ export class AddonMetaBase extends React.Component<Props> {
               title: userTitle,
             },
             {
-              content: reviewCount,
+              content: (
+                <Link
+                  className="Addon-all-reviews-link"
+                  to={`/addon/${addon.slug}/reviews/`}
+                >
+                  {reviewCount}
+                </Link>
+              ),
               title: (
                 <Link
                   className="Addon-all-reviews-link"
@@ -78,7 +86,14 @@ export class AddonMetaBase extends React.Component<Props> {
                   styleSize="small"
                 />
               ),
-              title: i18n.gettext('Overall Rating'),
+              title: (
+                <Link
+                  className="Addon-all-reviews-link"
+                  to={`/addon/${addon.slug}/reviews/`}
+                >
+                  {overallRating}
+                </Link>
+              ),
             },
           ]}
         />

@@ -1,13 +1,22 @@
 import * as React from 'react';
-
-import AddonMeta, { AddonMetaBase } from 'amo/components/AddonMeta';
-import { createInternalAddon } from 'core/reducers/addons';
+import {
+  findDOMNode
+} from 'react-dom';
+import AddonMeta, {
+  AddonMetaBase
+} from 'amo/components/AddonMeta';
+import MetadataCard from 'ui/components/MetadataCard';
+import {
+  createInternalAddon
+} from 'core/reducers/addons';
 import {
   dispatchClientMetadata,
   fakeAddon,
 } from 'tests/unit/amo/helpers';
-import { fakeI18n, shallowUntilTarget } from 'tests/unit/helpers';
-import MetadataCard from 'ui/components/MetadataCard';
+import {
+  fakeI18n,
+  shallowUntilTarget
+} from 'tests/unit/helpers';
 
 
 describe(__filename, () => {
@@ -16,22 +25,31 @@ describe(__filename, () => {
     store = dispatchClientMetadata().store,
     ...props
   } = {}) {
-    return shallowUntilTarget(
-      <AddonMeta
-        addon={addon}
-        i18n={fakeI18n()}
-        store={store}
-        {...props}
+    return shallowUntilTarget( <
+      AddonMeta addon = {
+        addon
+      }
+      i18n = {
+        fakeI18n()
+      }
+      store = {
+        store
+      } { ...props
+      }
       />,
       AddonMetaBase
     );
   }
 
   it('can render without an addon', () => {
-    const root = render({ addon: null });
+    const root = render({
+      addon: null
+    });
     expect(root.find('.AddonMeta')).toHaveLength(1);
     expect(root.find(MetadataCard)).toHaveLength(1);
   });
+
+  const hrefProp = findDOMNode(root, 'a').href;
 
   describe('average daily users', () => {
     function getUserCount(root) {
@@ -40,7 +58,9 @@ describe(__filename, () => {
 
     it('renders the user count', () => {
       const root = render({
-        addon: createInternalAddon({ ...fakeAddon, average_daily_users: 2 }),
+        addon: createInternalAddon({ ...fakeAddon,
+          average_daily_users: 2
+        }),
       });
 
       expect(getUserCount(root).content).toEqual('2');
@@ -49,7 +69,9 @@ describe(__filename, () => {
 
     it('renders one user', () => {
       const root = render({
-        addon: createInternalAddon({ ...fakeAddon, average_daily_users: 1 }),
+        addon: createInternalAddon({ ...fakeAddon,
+          average_daily_users: 1
+        }),
       });
 
       expect(getUserCount(root).content).toEqual('1');
@@ -58,7 +80,9 @@ describe(__filename, () => {
 
     it('renders no users', () => {
       const root = render({
-        addon: createInternalAddon({ ...fakeAddon, average_daily_users: 0 }),
+        addon: createInternalAddon({ ...fakeAddon,
+          average_daily_users: 0
+        }),
       });
 
       expect(getUserCount(root).content).toEqual('');
@@ -66,7 +90,9 @@ describe(__filename, () => {
     });
 
     it('localizes the user count', () => {
-      const i18n = fakeI18n({ lang: 'de' });
+      const i18n = fakeI18n({
+        lang: 'de'
+      });
       const root = render({
         addon: createInternalAddon({
           ...fakeAddon,
@@ -97,29 +123,41 @@ describe(__filename, () => {
     }
 
     it('renders a count of multiple ratings', () => {
-      const root = renderRatings({ count: 5 });
+      const root = renderRatings({
+        count: 5
+      });
 
       expect(getReviewCount(root).content).toEqual('5');
       expect(getReviewCount(root).title).toEqual('Ratings');
     });
 
     it('renders a count of one rating', () => {
-      const root = renderRatings({ count: 1 });
+      const root = renderRatings({
+        count: 1
+      });
 
       expect(getReviewCount(root).content).toEqual('1');
       expect(getReviewCount(root).title).toEqual('Rating');
     });
 
     it('localizes review count', () => {
-      const i18n = fakeI18n({ lang: 'de' });
-      const root = renderRatings({ count: 1000 }, { i18n });
+      const i18n = fakeI18n({
+        lang: 'de'
+      });
+      const root = renderRatings({
+        count: 1000
+      }, {
+        i18n
+      });
 
       expect(getReviewCount(root).content).toEqual('1.000');
     });
 
     it('handles zero ratings', () => {
       const root = render({
-        addon: createInternalAddon({ ...fakeAddon, ratings: null }),
+        addon: createInternalAddon({ ...fakeAddon,
+          ratings: null
+        }),
       });
 
       expect(getReviewCount(root).title).toEqual('No Ratings');
